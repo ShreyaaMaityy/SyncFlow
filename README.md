@@ -1,11 +1,12 @@
-# SyncFlow 🚀
+<img width="1467" height="837" alt="Screenshot 2026-01-17 at 11 24 16 PM" src="https://github.com/user-attachments/assets/e0fe74b7-4a9d-415f-8afc-c0140ffbf383" /># SyncFlow 🚀
 **Intelligent Collaborative System Architecture Design**
 
 Build, visualize, and collaborate on complex system architectures in real-time with the power of AI.
 
-![SyncFlow Workspace](https://via.placeholder.com/800x450.png?text=SyncFlow+Workspace+Screenshot)
-*(Replace this link with your actual screenshot)*
 
+<p align="center">
+  <img width="1470" alt="SyncFlow Dashboard" src="https://github.com/user-attachments/assets/20c61773-353d-4ac1-aaa9-c6453a7c80d6">
+</p>
 
 ## 🌟 Core Features
 
