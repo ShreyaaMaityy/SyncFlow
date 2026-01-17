@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background-color: #030712;
+  /* gray-950 */
+}
+
+/* Glassmorphism utility if needed, but using tailwind classes directly */
+
+/* Marching Ants Animation */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.react-flow__edge-path {
+  stroke: #6366f1 !important;
+  /* Indigo-500 */
+  stroke-width: 2 !important;
+  filter: drop-shadow(0 0 2px #6366f1);
+}
+
+.animated-edge .react-flow__edge-path {
+  stroke-dasharray: 10;
+  animation: dash 1s linear infinite;
+}
+
+/* Background dots */
+.react-flow__background {
+  background-color: #030712;
+}

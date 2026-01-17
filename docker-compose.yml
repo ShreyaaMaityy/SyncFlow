@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/syncflow
+      - JWT_SECRET=production_secret_key_change_this
+    depends_on:
+      - mongo
+
+  client:
+    build: ./client
+    ports:
+      - "5173:80" # Mapping Nginx 80 to 5173 for consistency with dev URL if user wants, or 8080. Let's keep 5173 or 80. Let's use 8080 to avoid conflict if dev is running, or just 80.
+      # User asked for professional deployment. Let's map 80:80 but user might have stuff there. Let's use 8080:80.
+      - "8080:80"
+    depends_on:
+      - server
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
