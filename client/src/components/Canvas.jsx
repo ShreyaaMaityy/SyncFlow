@@ -96,9 +96,8 @@ const Canvas = () => {
     useEffect(() => {
         const loadWorkspace = async () => {
             try {
-                const token = localStorage.getItem('token');
                 const res = await fetch(`http://localhost:3000/api/workspaces/${workspaceId}`, {
-                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+                    credentials: 'include'
                 });
 
                 if (res.ok) {
@@ -134,13 +133,12 @@ const Canvas = () => {
     const handleTitleRename = async () => {
         setIsEditingTitle(false);
         try {
-            const token = localStorage.getItem('token');
             await fetch(`http://localhost:3000/api/workspaces/${workspaceId}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify({ name: workspaceName })
             });
             toast.success('Workspace name saved');
@@ -161,6 +159,7 @@ const Canvas = () => {
                 await fetch(`http://localhost:3000/api/workspaces/${workspaceId}/save`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
                     body: JSON.stringify({ nodes: currentNodes, edges: currentEdges })
                 });
 

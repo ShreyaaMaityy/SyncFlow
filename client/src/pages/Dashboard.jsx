@@ -16,9 +16,8 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchWorkspaces = async () => {
             try {
-                const token = localStorage.getItem('token');
                 const res = await fetch('http://localhost:3000/api/workspaces', {
-                    headers: { Authorization: `Bearer ${token}` }
+                    credentials: 'include'
                 });
                 if (res.ok) {
                     const data = await res.json();
@@ -50,13 +49,12 @@ const Dashboard = () => {
 
     const handleCreateNew = async () => {
         try {
-            const token = localStorage.getItem('token');
             const res = await fetch('http://localhost:3000/api/workspaces', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 },
+                credentials: 'include', // Cookie
                 body: JSON.stringify({})
             });
 
@@ -78,10 +76,9 @@ const Dashboard = () => {
         if (!window.confirm('Are you sure you want to delete this workspace?')) return;
 
         try {
-            const token = localStorage.getItem('token');
             const res = await fetch(`http://localhost:3000/api/workspaces/${id}`, {
                 method: 'DELETE',
-                headers: { Authorization: `Bearer ${token}` }
+                credentials: 'include'
             });
 
             if (res.ok) {
@@ -108,13 +105,12 @@ const Dashboard = () => {
         e.preventDefault();
         e.stopPropagation();
         try {
-            const token = localStorage.getItem('token');
             const res = await fetch(`http://localhost:3000/api/workspaces/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify({ name: newName })
             });
 

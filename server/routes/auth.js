@@ -31,11 +31,21 @@ router.post('/register', async (req, res) => {
         });
 
         if (user) {
+            const token = generateToken(user._id);
+
+            // Set Cookie
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: true, // Required for SameSite: 'None' (Production)
+                sameSite: 'none',
+                maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+            });
+
             res.status(201).json({
                 _id: user._id,
                 username: user.username,
                 email: user.email,
-                token: generateToken(user._id),
+                token,
             });
         } else {
             res.status(400).json({ message: 'Invalid user data' });
@@ -55,11 +65,21 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user && (await user.matchPassword(password))) {
+            const token = generateToken(user._id);
+
+            // Set Cookie
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+            });
+
             res.json({
                 _id: user._id,
                 username: user.username,
                 email: user.email,
-                token: generateToken(user._id),
+                token,
             });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });

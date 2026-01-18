@@ -11,6 +11,9 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 const server = http.createServer(app);
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
 
 // --- 1. CONFIGURATION ---
 const PORT = process.env.PORT || 10000; // Use 10000 for Render

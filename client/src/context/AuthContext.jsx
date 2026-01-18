@@ -12,26 +12,21 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkUser = async () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                try {
-                    const res = await fetch('http://localhost:3000/api/auth/me', {
-                        headers: { Authorization: `Bearer ${token}` }
-                    });
+            try {
+                // Try fetching user from backend (cookie will be sent if exists)
+                const res = await fetch('http://localhost:3000/api/auth/me', {
+                    credentials: 'include' // Important: Send cookie
+                });
 
-                    if (res.ok) {
-                        const userData = await res.json();
-                        // Merge the token back in just in case we need it easily, though it's in localStorage
-                        setUser({ ...userData, token });
-                    } else {
-                        localStorage.removeItem('token');
-                        setUser(null);
-                    }
-                } catch (error) {
-                    console.error("Auth check failed:", error);
-                    localStorage.removeItem('token');
+                if (res.ok) {
+                    const userData = await res.json();
+                    setUser(userData);
+                } else {
                     setUser(null);
                 }
+            } catch (error) {
+                console.error("Auth check failed:", error);
+                setUser(null);
             }
             setLoading(false);
         };
@@ -43,12 +38,12 @@ export const AuthProvider = ({ children }) => {
         const res = await fetch('http://localhost:3000/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include', // Important
             body: JSON.stringify({ email, password }),
         });
 
         const data = await res.json();
         if (res.ok) {
-            localStorage.setItem('token', data.token);
             setUser(data);
             return { success: true };
         } else {
@@ -60,12 +55,12 @@ export const AuthProvider = ({ children }) => {
         const res = await fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include', // Important
             body: JSON.stringify({ username, email, password }),
         });
 
         const data = await res.json();
         if (res.ok) {
-            localStorage.setItem('token', data.token);
             setUser(data);
             return { success: true };
         } else {
